@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>random svg editor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Menlo&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-900 dark:to-gray-800 min-h-screen font-poppins transition-colors duration-300 relative">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 py-4 rounded-2xl mx-auto mt-6 max-w-4xl bg-white/60 dark:bg-gray-900/60 shadow-lg backdrop-blur-md border border-gray-200 dark:border-gray-800">
+    <div class="flex items-center gap-3">
+      <span class="inline-block w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 blur-sm opacity-60"></span>
+      <h1 class="text-2xl font-bold tracking-tight text-gray-800 dark:text-white drop-shadow-lg select-none">random svg editor</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="lang-btn" class="rounded-full px-3 py-1 text-sm font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-indigo-200 hover:dark:bg-indigo-700 transition">EN/ES</button>
+      <button id="theme-btn" class="rounded-full px-3 py-1 text-sm font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-pink-200 hover:dark:bg-pink-700 transition" title="Modo claro/oscuro">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto mt-8 px-4 pb-12">
+    <!-- Elemento 1: Botones de exportar/importar -->
+    <section class="flex flex-wrap gap-3 justify-center mb-6">
+      <button id="download-svg" class="btn-glass text-base font-bold">
+        <span>⬇️ SVG</span>
+      </button>
+      <button id="download-png" class="btn-glass text-base font-bold">
+        <span>⬇️ PNG</span>
+      </button>
+      <label for="import-svg" class="btn-glass text-base font-bold cursor-pointer">
+        <span>📂 SVG</span>
+        <input id="import-svg" type="file" accept=".svg" class="hidden"/>
+      </label>
+    </section>
+
+    <!-- Elemento 2: Figuras básicas y iconos -->
+    <section class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="rounded-2xl bg-white/70 dark:bg-gray-900/70 shadow-lg p-3 mb-2">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Figuras básicas</div>
+        <div id="basic-shapes" class="flex gap-2 justify-center flex-wrap"></div>
+      </div>
+      <div class="rounded-2xl bg-white/70 dark:bg-gray-900/70 shadow-lg p-3 mb-2">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Iconos</div>
+        <div id="svg-icons" class="flex gap-2 justify-center flex-wrap"></div>
+      </div>
+    </section>
+
+    <!-- Elemento 3: Paleta de colores -->
+    <section class="mb-6">
+      <div class="rounded-2xl bg-white/70 dark:bg-gray-900/70 shadow-lg p-3 mb-2">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Paleta de colores</div>
+        <div class="flex flex-wrap gap-2 items-center justify-center mb-2" id="color-palette"></div>
+        <div class="flex items-center justify-center gap-2">
+          <button id="custom-color-btn" class="rounded-full px-3 py-1 text-xs font-semibold bg-gradient-to-r from-indigo-400 to-pink-400 text-white shadow hover:scale-105 transition">🎨 <span id="custom-color-label">Personalizado</span></button>
+          <input type="color" id="color-picker" class="hidden"/>
+          <span id="custom-hex" class="ml-2 text-xs font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded select-all cursor-pointer"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Elemento 4: Editor y vista previa -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <!-- Editor de código -->
+      <div class="rounded-2xl bg-white/70 dark:bg-gray-900/70 shadow-lg p-3 flex flex-col h-[500px] relative">
+        <label class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" id="editor-label">Código SVG</label>
+        <div class="relative flex-1 w-full h-full">
+          <textarea id="svg-code" class="flex-1 w-full h-full rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 font-menlo text-xs p-2 outline-none border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-400 transition-colors resize-none code-theme relative z-10" spellcheck="false" style="min-height:400px; background:transparent;"></textarea>
+          <div id="code-overlay" class="absolute left-0 top-0 w-full h-full pointer-events-none p-2 font-menlo text-xs whitespace-pre-wrap" style="display:none"></div>
+        </div>
+      </div>
+      <!-- Vista previa -->
+      <div class="rounded-2xl bg-white/70 dark:bg-gray-900/70 shadow-lg p-3 flex flex-col h-[500px]">
+        <label class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" id="preview-label">Vista previa</label>
+        <div id="svg-preview" class="flex-1 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-auto" style="min-height:400px;"></div>
+      </div>
+    </section>
+
+    <!-- Botones inferiores -->
+    <section class="flex flex-wrap gap-3 justify-center mt-2">
+      <button id="random-btn" class="btn-glass text-base font-bold">
+        <span id="random-label">Random</span>
+      </button>
+      <button id="copy-btn" class="btn-glass text-base font-bold">
+        <span id="copy-label">Copiar</span>
+      </button>
+      <button id="clear-btn" class="btn-glass text-base font-bold">
+        <span id="clear-label">Limpiar</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="icons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+body, .font-poppins {
+  font-family: 'Poppins', Arial, sans-serif;
+}
+.font-menlo, textarea, .code-theme {
+  font-family: 'Menlo', 'Fira Mono', 'Consolas', monospace;
+}
+
+.btn-glass {
+  @apply rounded-full px-4 py-2 font-semibold text-sm shadow-lg bg-white/60 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-800 backdrop-blur-md transition hover:scale-105 hover:bg-indigo-100 hover:dark:bg-indigo-800 hover:text-indigo-700 hover:dark:text-indigo-200;
+  outline: none;
+}
+
+.shape-btn, .icon-btn {
+  @apply rounded-xl p-2 bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 shadow hover:scale-105 transition cursor-pointer;
+}
+.shape-btn.selected, .icon-btn.selected {
+  @apply ring-2 ring-indigo-400 dark:ring-pink-400 scale-110;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 0.75rem;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.1s;
+  display: inline-block;
+}
+.color-swatch:hover {
+  transform: scale(1.12);
+  border-color: #6366f1;
+}
+
+.code-theme {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ef 100%);
+  color: #222;
+}
+.dark .code-theme {
+  background: linear-gradient(135deg, #23272f 0%, #1a1d23 100%);
+  color: #e0e7ef;
+}
+textarea.code-theme {
+  caret-color: #6366f1;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e0e7ef;
+  border-radius: 8px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #23272f;
+}
+
+.bg-glass {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.12);
+}
+
+@media (max-width: 640px) {
+  .h-\[500px\] { height: 300px !important; }
+  .max-w-4xl { max-width: 98vw !important; }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.95);}
+  60% { transform: scale(1.05);}
+  100% { transform: scale(1);}
+}
+.pop {
+  animation: pop 0.25s cubic-bezier(.4,2,.6,1) 1;
+}
+
+.absolute { position: absolute; }
+.relative { position: relative; }
+
